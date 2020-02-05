@@ -34,34 +34,38 @@ namespace PCO_Back_End.Models.Entities
         {
             modelBuilder.Entity<Account>()
                 .Property(e => e.firstName)
-                .IsFixedLength();
+                .IsVariableLength();
 
             modelBuilder.Entity<Account>()
                 .Property(e => e.middleName)
-                .IsFixedLength();
+                .IsVariableLength();
 
             modelBuilder.Entity<Account>()
                 .Property(e => e.lastName)
-                .IsFixedLength();
+                .IsVariableLength();
 
             modelBuilder.Entity<Account>()
                 .Property(e => e.contactNo)
-                .IsFixedLength();
+                .IsVariableLength();
 
             modelBuilder.Entity<Account>()
                 .Property(e => e.location)
-                .IsFixedLength();
+                .IsVariableLength();
 
             modelBuilder.Entity<Account>()
                 .HasOptional(e => e.LoginCredential)
-                .WithRequired(e => e.Account);
+                .WithRequired(e => e.Account)
+                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<Account>()
                 .HasOptional(e => e.PRCDetail)
-                .WithRequired(e => e.Account);
+                .WithRequired(e => e.Account)
+                .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<Account>()
-                .HasRequired<MembershipType>(e => e.membershipType);
+                .HasRequired(e => e.membershipType)
+                .WithMany()
+                .HasForeignKey(e => e.membershipTypeId);
 
             modelBuilder.Entity<Conference>()
                 .HasOptional(e => e.Promo)
@@ -81,7 +85,7 @@ namespace PCO_Back_End.Models.Entities
 
             modelBuilder.Entity<MembershipType>()
                 .Property(e => e.membershipTypeName)
-                .IsFixedLength();
+                .IsVariableLength();
 
             //TODO: For Confirmation
             //modelBuilder.Entity<MembershipType>()
@@ -97,15 +101,15 @@ namespace PCO_Back_End.Models.Entities
 
             modelBuilder.Entity<Payment>()
                 .Property(e => e.amountPaid)
-                .IsFixedLength();
+                .IsVariableLength();
 
             modelBuilder.Entity<Payment>()
                 .Property(e => e.proofOfPayment)
-                .IsFixedLength();
+                .IsVariableLength();
 
             modelBuilder.Entity<Period>()
                 .Property(e => e.periodName)
-                .IsFixedLength();
+                .IsVariableLength();
 
             //TODO: For Confirmation
             //modelBuilder.Entity<Period>()
@@ -115,7 +119,7 @@ namespace PCO_Back_End.Models.Entities
 
             modelBuilder.Entity<PRCDetail>()
                 .Property(e => e.prcNo)
-                .IsFixedLength();
+                .IsVariableLength();
 
             modelBuilder.Entity<Promo>()
                 .HasMany(e => e.PromoMembers)

@@ -20,7 +20,6 @@ namespace PCO_Back_End.Models.Persistence.Repositories
 
         //DELETE Operation
         void Remove(TEntity entity);
-        void RemoveRange(IEnumerable<TEntity> entities);
 
         //UPDATE Operation
         void Update(TEntity oldEntity, TEntity newEntity);

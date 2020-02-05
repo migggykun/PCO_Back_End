@@ -76,15 +76,6 @@ namespace PCO_Back_End.Models.Persistence.Repositories
         }
 
         /// <summary>
-        /// Removes list of data in database.
-        /// </summary>
-        /// <param name="entities">Objects to be removed in database</param>
-        public void RemoveRange(IEnumerable<TEntity> entities)
-        {
-            _entity.RemoveRange(entities);
-        }
-
-        /// <summary>
         /// Updates Object
         /// </summary>
         /// <param name="oldEntity">Old data</param>

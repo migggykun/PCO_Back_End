@@ -39,7 +39,6 @@ namespace PCO_Back_End.Models.Accounts
         public bool isAdmin { get; set; }
 
         public int membershipTypeId { get; set; }
-
         public MembershipType membershipType { get; set; }
 
         public virtual LoginCredential LoginCredential { get; set; }

@@ -163,6 +163,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\api\Accounts\LoginCredentialController.cs" />
+    <Compile Include="Controllers\api\Accounts\PRCDetailsController.cs" />
+    <Compile Include="Controllers\api\Accounts\UserAccountController.cs" />
+    <Compile Include="Controllers\api\Accounts\MembershipTypeController.cs" />
+    <Compile Include="Controllers\api\ICRUD.cs" />
     <Compile Include="Models\Accounts\Account.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -198,10 +203,15 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Models\Accounts\AccountsDB.cs" />
+    <Compile Include="Models\Accounts\LoginCredentialsDB.cs" />
+    <Compile Include="Models\Accounts\SaltHash\DataCryptography.cs" />
     <Compile Include="Models\Conferences\Conference.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Models\Persistence\Repositories\ILoginRepository.cs" />
+    <Compile Include="Models\Persistence\Repositories\LoginCredentialRepository.cs" />
     <Compile Include="Models\Registrations\DailyAttendanceRecord.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -256,6 +266,7 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <None Include="Properties\PublishProfiles\Migeru.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -286,7 +297,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\api\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
