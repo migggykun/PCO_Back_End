@@ -8,6 +8,7 @@ namespace PCO_Back_End.Models.Accounts
 {
     public partial class Account
     {
+        [Key]
         public int accountId { get; set; }
 
         [Required]

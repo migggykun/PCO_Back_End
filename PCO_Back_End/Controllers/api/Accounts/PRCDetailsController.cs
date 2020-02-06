@@ -1,11 +1,14 @@
-﻿using PCO_Back_End.Models.Entities;
-using PCO_Back_End.Models.Persistence.UnitOfWork;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using PCO_Back_End.Models.Accounts;
+using AutoMapper;
+using PCO_Back_End.Models.Entities;
+using PCO_Back_End.Models.Persistence.UnitOfWork;
+using PCO_Back_End.DTOs;
 
 namespace PCO_Back_End.Controllers.api.Accounts
 {
@@ -23,7 +26,28 @@ namespace PCO_Back_End.Controllers.api.Accounts
         {
             UnitOfWork unitOfwork = new UnitOfWork(_context);
             var PRCDetail = unitOfwork.PRCDetails.Get(id);
-            return Ok(PRCDetail);
+            if (PRCDetail == null)
+            {
+                return ResponseMessage(new HttpResponseMessage(HttpStatusCode.NotFound));
+            }
+            return Ok(Mapper.Map<PRCDetail, PRCDetailsDTO>(PRCDetail));
+        }
+
+        [HttpPut]
+        public IHttpActionResult UpdatePRCDetail(PRCDetailsDTO userInput)
+        {
+            var PRCDetails = Mapper.Map<PRCDetailsDTO, PRCDetail>(userInput);
+            UnitOfWork unitOfWork = new UnitOfWork(_context);
+
+            try
+            {
+                unitOfWork.PRCDetails.Update(PRCDetails);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return ResponseMessage(new HttpResponseMessage(HttpStatusCode.NotFound));
+            }
         }
     }
 }

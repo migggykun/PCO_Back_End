@@ -1,9 +1,12 @@
-﻿using PCO_Back_End.Models.Accounts;
+﻿using AutoMapper;
+using PCO_Back_End.DTOs;
+using PCO_Back_End.Models.Accounts;
 using PCO_Back_End.Models.Accounts.SaltHash;
 using PCO_Back_End.Models.Entities;
 using PCO_Back_End.Models.Persistence.UnitOfWork;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -40,23 +43,25 @@ namespace PCO_Back_End.Controllers.api.Accounts
         }
 
         [HttpPut]
-        public IHttpActionResult UpdatePassword(LoginCredential loginInfo)
+        public IHttpActionResult UpdatePassword(LoginCredentialDTO InputLoginInfo)
         {
+            var userInput = Mapper.Map<LoginCredentialDTO, LoginCredential>(InputLoginInfo);
+
             //Encrypt Password
-            loginInfo.EncryptPassword();
+            userInput.EncryptPassword();
 
             //Store in DB
             UnitOfWork unitOfWork = new UnitOfWork(_context);
-            var oldEntity = unitOfWork.LoginCredentials.Get(loginInfo.login_accountId);
-            unitOfWork.LoginCredentials.Update(oldEntity, loginInfo);
+            unitOfWork.LoginCredentials.Update(userInput);
             unitOfWork.Complete();
             return Ok();
             
         }
 
         [HttpPost]
-        public IHttpActionResult ValidateLogin(LoginCredential userInput)
+        public IHttpActionResult ValidateLogin(LoginCredentialDTO InputLoginInfo)
         {
+            var userInput = Mapper.Map<LoginCredentialDTO, LoginCredential>(InputLoginInfo);
             UnitOfWork unitOfWork = new UnitOfWork(_context);
             var loginInfo = unitOfWork.LoginCredentials.GetLoginInfobyEmail(userInput.email);
             if (loginInfo != null)

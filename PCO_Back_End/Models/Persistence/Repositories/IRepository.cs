@@ -22,6 +22,6 @@ namespace PCO_Back_End.Models.Persistence.Repositories
         void Remove(TEntity entity);
 
         //UPDATE Operation
-        void Update(TEntity oldEntity, TEntity newEntity);
+        void Update(TEntity newEntity);
     }
 }

@@ -27,6 +27,9 @@ namespace PCO_Back_End.Models.Accounts
 
         public virtual Account Account { get; set; }
 
+        /// <summary>
+        /// Encrypt password into SHA256 format
+        /// </summary>
         public void EncryptPassword()
         {
             DataCryptography dataCryptography = new DataCryptography();
@@ -34,6 +37,11 @@ namespace PCO_Back_End.Models.Accounts
             this.passwordHashed = dataCryptography.GetSha256Hash(this.passwordHashed, this.salt);
         }
 
+        /// <summary>
+        /// Compare the hashed password if match.
+        /// </summary>
+        /// <param name="inputPassword"></param>
+        /// <returns></returns>
         public bool IsPasswordMatch(string inputPassword)
         {
             if (string.Compare(inputPassword, this.passwordHashed, false) == 0)

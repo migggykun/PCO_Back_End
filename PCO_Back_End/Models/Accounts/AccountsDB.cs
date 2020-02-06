@@ -59,7 +59,7 @@ namespace PCO_Back_End.Models.Accounts
         {
             UnitOfWork unitOfWork = new UnitOfWork(_context);
             var oldData = unitOfWork.Accounts.Get(newData.accountId);
-            unitOfWork.Accounts.Update(oldData, newData);
+            unitOfWork.Accounts.Update(newData);
             unitOfWork.Complete();
         }
     }

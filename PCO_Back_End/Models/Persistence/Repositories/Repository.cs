@@ -4,6 +4,9 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Linq.Expressions;
+using System.Reflection;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
 
 namespace PCO_Back_End.Models.Persistence.Repositories
 {
@@ -80,9 +83,44 @@ namespace PCO_Back_End.Models.Persistence.Repositories
         /// </summary>
         /// <param name="oldEntity">Old data</param>
         /// <param name="newEntity">New data</param>
-        public void Update(TEntity oldEntity, TEntity newEntity)
+        public void Update(TEntity newEntity)
         {
-            _context.Entry(oldEntity).CurrentValues.SetValues(newEntity);
+            int primaryKey = GetPrimaryKey(newEntity); //Acquires the primary key of generic object
+            var oldEntity = _entity.Find(primaryKey); //Acquires original object
+
+            foreach (PropertyInfo p in newEntity.GetType().GetProperties())
+            {
+                var propertyValue = p.GetValue(newEntity, null); //acquires value of iterated property
+                if (propertyValue != null)
+                {   
+                    _context.Entry<TEntity>(oldEntity).Property(p.Name).CurrentValue = propertyValue;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the primary Key of specified entity
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        private int GetPrimaryKey(TEntity entity)
+        {
+            int primaryKey;
+            ObjectContext objectContext = ((IObjectContextAdapter)_context).ObjectContext;
+            ObjectSet<TEntity> set = objectContext.CreateObjectSet<TEntity>();
+            string primaryKeyName = set.EntitySet.ElementType
+                                                        .KeyMembers
+                                                        .Select(k => k.Name)
+                                                        .FirstOrDefault();
+            if (!string.IsNullOrWhiteSpace(primaryKeyName))
+            {
+                primaryKey = (int)_context.Entry<TEntity>(entity).Property(primaryKeyName).CurrentValue;
+            }
+            else
+            {
+                primaryKey = 0; //entity does not exist in context
+            }
+            return primaryKey;
         }
 
 
